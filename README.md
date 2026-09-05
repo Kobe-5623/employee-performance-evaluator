@@ -76,5 +76,6 @@ Python dependencies are managed automatically by `uv`.
 <img width="644" height="598" alt="image" src="https://github.com/user-attachments/assets/bb120465-c220-42f1-8e74-0fc2b6839a44" />
 <img width="645" height="599" alt="image" src="https://github.com/user-attachments/assets/95c5dde8-3a66-421a-bfff-44e19eb704cf" />
 <img width="646" height="600" alt="image" src="https://github.com/user-attachments/assets/f5165737-8ceb-43fe-8e0f-23650619b8cc" />
+<img width="643" height="601" alt="image" src="https://github.com/user-attachments/assets/651b1fd4-d88e-499e-9092-8b6d9632a70c" />
 </p>
 
