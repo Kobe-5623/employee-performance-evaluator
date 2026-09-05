@@ -1,63 +1,181 @@
 import customtkinter as ctk
 import clips
 
-def newOption(app, text, value, selected_option):
-  option = ctk.CTkFrame( app, width=400, height=50, fg_color="#2E2E2E" )
-  option.pack_propagate( False )
-  option.pack( padx=50, pady=10 )
 
-  radio = ctk.CTkRadioButton( 
-    option, radiobutton_width=16, radiobutton_height=16, 
-    border_width_checked="5", border_width_unchecked=2,
-    text=text,
-    value=value,
-    variable=selected_option
-  )
-  radio.pack( side="left", padx=15 )
+def load_clips():
+    env = clips.Environment()
+    env.load("clips/templates.clp")
+    env.load("clips/questions.clp")
+    env.load("clips/rules.clp")
+    env.reset()
+    return env
 
-  return option
 
 def main():
+    env = load_clips()
+    questions = sorted(
+        list(env.find_template("question").facts()),
+        key=lambda q: int(q["id"])
+    )
 
-  # CLIPS ----- BAKA ILIPAT KO SA SEPARATE NA FILE, DEPENDE PA
+    ctk.set_appearance_mode("light")
+    ctk.set_default_color_theme("blue")
 
-  env = clips.Environment()
+    app = ctk.CTk()
+    app.title("Employee Performance Evaluation")
+    app.geometry("650x570")
+    app.resizable(False, False)
 
-  env.load("clips/config.clp")
-  env.load("clips/questions.clp")
+    ctk.CTkLabel(
+        app,
+        text="Employee Performance Evaluation",
+        font=("Arial", 22, "bold")
+    ).pack(pady=(10, 2))
 
-  env.reset()
+    ctk.CTkLabel(
+        app,
+        text="Rate the employee based on their performance.",
+        font=("Arial", 13)
+    ).pack(pady=(0, 5))
 
-  template = env.find_template("configuration")
-  fact = next(template.facts())
-  student_count = fact["student-count"]
+    form = ctk.CTkScrollableFrame(
+        app,
+        width=570,
+        height=390
+    )
+    form.pack(padx=20, pady=3)
 
-  template = env.find_template("question")
-  questions = list(template.facts())
+    answers = []
 
-  question = questions[0]
+    areas = [
+        "Work Performance",
+        "Communication & Teamwork",
+        "Compliance & Accountability",
+        "Problem Solving & Adaptability",
+        "Quality & Professionalism"
+    ]
 
+    for area in areas:
+        ctk.CTkLabel(
+            form,
+            text=area,
+            font=("Arial", 16, "bold")
+        ).pack(anchor="w", pady=(10, 5))
 
+        for question in questions:
+            if str(question["area"]) != area:
+                continue
 
+            ctk.CTkLabel(
+                form,
+                text=f'{question["id"]}. {question["text"]}',
+                font=("Arial", 13, "bold"),
+                wraplength=540,
+                justify="left"
+            ).pack(anchor="w", pady=(4, 3))
 
+            selected = ctk.IntVar(value=0)
+            answers.append((question, selected))
 
+            for score in range(1, 6):
+                ctk.CTkRadioButton(
+                    form,
+                    text=question["options"][score - 1],
+                    variable=selected,
+                    value=score,
+                    font=("Arial", 12)
+                ).pack(anchor="w", padx=15, pady=1)
 
-  # UI -------
+    error = ctk.CTkLabel(
+        app,
+        text="",
+        text_color="red",
+        font=("Arial", 11)
+    )
+    error.pack(pady=1)
 
-  app = ctk.CTk()
-  app.title("Teacher Performance Evaluator")
-  app.geometry("500x600")
+    def submit():
+        for question, selected in answers:
+            if selected.get() == 0:
+                error.configure(
+                    text=f'Please answer question {question["id"]}.'
+                )
+                return
 
+        for question, selected in answers:
+            env.assert_string(
+                f'(answer (id {question["id"]}) (score {selected.get()}))'
+            )
 
-  displayed_question = ctk.CTkLabel(app, text=question["text"])
-  displayed_question.pack(padx=50, pady=10)
+        env.run()
 
-  selected_option = ctk.StringVar(value="")
+        result = list(env.find_template("result").facts())[0]
+        overall = list(env.find_template("overall-score").facts())[0]
+        area_scores = list(env.find_template("area-score").facts())
 
-  for index, option in enumerate(question["options"]):
-    newOption(app, option, index + 1, selected_option)
+        show_result(result, overall, area_scores)
 
-  app.mainloop()
+    ctk.CTkButton(
+        app,
+        text="Submit Evaluation",
+        width=190,
+        height=36,
+        command=submit
+    ).pack(pady=(2, 7))
+
+    def show_result(result, overall, area_scores):
+        for widget in app.winfo_children():
+            widget.destroy()
+
+        ctk.CTkLabel(
+            app,
+            text="Evaluation Result",
+            font=("Arial", 24, "bold")
+        ).pack(pady=(25, 10))
+
+        ctk.CTkLabel(
+            app,
+            text=str(result["type"]),
+            font=("Arial", 21, "bold")
+        ).pack(pady=4)
+
+        ctk.CTkLabel(
+            app,
+            text=f'Overall Score: {float(overall["value"]):.2f} / 5.00',
+            font=("Arial", 16)
+        ).pack(pady=4)
+
+        ctk.CTkLabel(
+            app,
+            text=str(result["message"]),
+            font=("Arial", 12),
+            wraplength=500
+        ).pack(pady=7)
+
+        ctk.CTkLabel(
+            app,
+            text="Area Scores",
+            font=("Arial", 17, "bold")
+        ).pack(pady=(10, 7))
+
+        for area_name in areas:
+            for area in area_scores:
+                if str(area["area"]) == area_name:
+                    ctk.CTkLabel(
+                        app,
+                        text=f'{area_name}: {float(area["score"]):.2f} / 5.00',
+                        font=("Arial", 12)
+                    ).pack(pady=2)
+
+        ctk.CTkButton(
+            app,
+            text="Exit",
+            width=130,
+            command=app.destroy
+        ).pack(pady=15)
+
+    app.mainloop()
+
 
 if __name__ == "__main__":
-  main()
+    main()
