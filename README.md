@@ -81,33 +81,36 @@ Python dependencies are managed automatically by `uv`.
 * Are some areas in performance more important than others? If so which ones?
 * How would you decide whether an employee is excellent, satisfactory, or needs improvement?
 * What am I even doing?
+> The questions did changed after proposal as i cant seem to get the answers I need using those, so I keep changing questions till i got the answers I need.
 
 ## Infos I got and used
 Areas of Performance and Weights I got based on its importance:
-> * Work Performance - 30%
-> * Communication & Teamwork - 20%
-> * Compliance & Accountability - 15%
-> * Problem Solving & Adaptability - 15%
-> * Quality & Professionalism - 20%
+* Work Performance - 30%* Communication & Teamwork - 20%
+* Compliance & Accountability - 15%
+* Problem Solving & Adaptability - 15%
+* Quality & Professionalism - 20%
+> I used the weights to get the overall score, you can see these in rules.clp
 
 Questions I can ask to evaluate a employee's perforamance in general:
-> 1. How effectively does the employee perform the main duties and responsibilities required by their position?
-> 2. How well does the employee organize and complete assigned work accurately and within the expected time?
-> 3. How effectively does the employee communicate information, ideas, and concerns with coworkers and other people they work with?
-> 4. How well does the employee cooperate with coworkers and contribute to completing shared tasks and team responsibilities?
-> 5. How consistently does the employee follow workplace policies, procedures, instructions, and established standards when performing their duties?
-> 6. How reliably does the employee take responsibility for assigned duties and ensure that their work is completed as expected?
-> 7. How effectively does the employee identify problems that affect their work and take appropriate action to resolve them?
-> 8. How well does the employee adjust their approach when work requirements, priorities, procedures, or situations change?
-> 9. How consistently does the employee produce work that meets the expected standards for accuracy, completeness, and quality?
-> 10. How professionally does the employee conduct themselves when carrying out responsibilities and interacting with others in the workplace?
+1. How effectively does the employee perform the main duties and responsibilities required by their position?
+2. How well does the employee organize and complete assigned work accurately and within the expected time?
+3. How effectively does the employee communicate information, ideas, and concerns with coworkers and other people they work with?
+4. How well does the employee cooperate with coworkers and contribute to completing shared tasks and team responsibilities?
+5. How consistently does the employee follow workplace policies, procedures, instructions, and established standards when performing their duties?
+6. How reliably does the employee take responsibility for assigned duties and ensure that their work is completed as expected?
+7. How effectively does the employee identify problems that affect their work and take appropriate action to resolve them?
+8. How well does the employee adjust their approach when work requirements, priorities, procedures, or situations change?
+9. How consistently does the employee produce work that meets the expected standards for accuracy, completeness, and quality?
+10. How professionally does the employee conduct themselves when carrying out responsibilities and interacting with others in the workplace?
+> I used these as facts, you can see it in questions.clp
 
 Templates I need:
-> * question
-> * answer
-> * area-score
-> * overall-score
-> * result
+* question
+* answer
+* area-score
+* overall-score
+* result
+> you can see this in templates.clp
 
 ## Inference System
 When the answers are submitted, the scores are asserted as answer facts. Rules will use the answers per areas then get their average, then it will assert a area-score fact, it will happenn to every areas. After that overall score are calculated based on each area's importance, then assert overall-score fact. Lastly the appropriate output to say are chosen based on overall score, such as Excellent, Very Satisfactory, Satisfactory, or Needs Improvement.
