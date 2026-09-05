@@ -1,4 +1,4 @@
-# Employee Performance Evaluator(NOT DONE, STILL IN TESTING)
+# Employee Performance Evaluator(NOT SURE IF DONE)
 
 ## Setup
 
