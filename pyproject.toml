@@ -1,0 +1,20 @@
+[project]
+name = "expertsystem"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kobe-5623", email = "fiv5gamein@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "clipspy>=1.0.6",
+    "customtkinter>=6.0.0",
+]
+
+[project.scripts]
+expertsystem = "expertsystem.main:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
