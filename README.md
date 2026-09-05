@@ -68,3 +68,13 @@ Python dependencies are managed automatically by `uv`.
 > ```bash
 > sudo apt install python3-tk
 > ```
+
+## Preview
+<p align="center">
+<img width="644" height="599" alt="image" src="https://github.com/user-attachments/assets/806bbc8b-3d78-428f-9ecf-6e254a1d469b" />
+<img width="645" height="601" alt="image" src="https://github.com/user-attachments/assets/513bad53-0170-4d34-8132-8705ae201e17" />
+<img width="644" height="598" alt="image" src="https://github.com/user-attachments/assets/bb120465-c220-42f1-8e74-0fc2b6839a44" />
+<img width="645" height="599" alt="image" src="https://github.com/user-attachments/assets/95c5dde8-3a66-421a-bfff-44e19eb704cf" />
+<img width="646" height="600" alt="image" src="https://github.com/user-attachments/assets/f5165737-8ceb-43fe-8e0f-23650619b8cc" />
+</p>
+
