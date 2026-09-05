@@ -65,7 +65,7 @@ The project uses:
 
 Python dependencies are managed automatically by `uv`.
 
-> On Debian/Ubuntu-based Linux systems, Tkinter may need to be installed separately:
+> On Linux Mint Xfce, Tkinter need to be installed separately, I dont know why, jus install it:
 >
 > ```bash
 > sudo apt install python3-tk
